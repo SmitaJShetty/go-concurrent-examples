@@ -11,6 +11,8 @@ func main(){
 	usingWaitGroup()
 
 	usingCond()
+
+	usingOnce()
 }
 
 func usingChannel(){
@@ -75,4 +77,31 @@ func usingCond(){
 	
 	wg.Wait()
 	fmt.Println("end of main")
+}
+
+func usingOnce(){
+	/*sync.Once only counts number of times a Do is called, not how many times unique functions are passed to Do */
+	counter := 0
+	print:= func (){fmt.Println("counter value was: ", counter) }
+	increment := func() { 
+		counter++
+		print()
+	}
+
+	decrement := func() { 
+		counter--
+		print()
+	}
+
+	var testSync sync.Once
+	testSync.Do(increment)
+	testSync.Do(decrement)
+	
+}
+
+func usingPool(){
+	/*
+		Get is primary interface - checks for any existing instances. 
+		If none are available, calls the New method to create a new instance.
+	*/
 }
