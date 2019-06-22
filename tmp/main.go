@@ -13,6 +13,8 @@ func main(){
 	usingCond()
 
 	usingOnce()
+
+	usingPool()
 }
 
 func usingChannel(){
@@ -103,5 +105,16 @@ func usingPool(){
 	/*
 		Get is primary interface - checks for any existing instances. 
 		If none are available, calls the New method to create a new instance.
+		Put puts instances back into pool
 	*/
+
+	testPool := &sync.Pool{
+		New: func() interface{}{
+			fmt.Println("usingPool,new instance created")
+			return struct{}{}
+		},
+	}
+	testInstance:= testPool.Get()
+	testPool.Put(testInstance)
+	testPool.Get()
 }
